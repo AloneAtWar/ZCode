@@ -42,6 +42,7 @@
     "@zcode/client": "workspace:*",
     "@zcode/provider": "workspace:*",
     "@zcode/provider-node": "workspace:*",
+    "@zcode/relay-client": "workspace:*",
     "@zcode/rpc": "workspace:*",
     "@zcode/server": "workspace:*",
     "@zcode/services": "workspace:*",

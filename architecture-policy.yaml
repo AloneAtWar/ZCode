@@ -34,6 +34,12 @@ modules:
   - id: client
     roots: [packages/client/src]
     managed: false
+  - id: relay-client
+    roots: [packages/relay-client/src]
+    managed: false
+  - id: remote-console-ui
+    roots: [packages/remote-console-ui/src]
+    managed: false
   - id: server
     roots: [packages/server/src]
     managed: false
@@ -54,6 +60,9 @@ modules:
     managed: false
   - id: zcode-cli
     roots: [apps/zcode-cli]
+    managed: false
+  - id: remote-console
+    roots: [apps/remote-console/src]
     managed: false
 
 global:

@@ -25,6 +25,7 @@ import {
   MessageCircleCheck,
   MessageCirclePlus,
   Minimize2,
+  MonitorSmartphone,
   Plus,
   Search,
   X,
@@ -73,6 +74,7 @@ import {
 import { useZCodeIntl } from "@/i18n/IntlProvider.js";
 import { logger } from "@/logger.js";
 import { NewTaskButtonGroup } from "@/NewTaskButtonGroup.js";
+import { RelayDeviceDialog } from "@/RelayDeviceDialog.js";
 import { selectWorkspaceZCodeState, useZCodeSessionStore } from "@/store/zcodeSessionStore.js";
 import { useZCodeStore } from "@/store/StoreProvider.js";
 import { useTabStore } from "@/store/TabStoreProvider.js";
@@ -1298,6 +1300,18 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
                 {commandCenterShortcutLabel}
               </span>
             </Button>
+            {/* relay 远程控制入口：平台未实现 relay 方法时组件自身不渲染（web/stub 自动隐藏）。*/}
+            <RelayDeviceDialog
+              triggerVariant="ghost"
+              triggerSize="lg"
+              triggerClassName="w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground"
+              trigger={
+                <>
+                  <MonitorSmartphone className="size-4" />
+                  <span>{intl.formatMessage({ id: "relayRemote.trigger" })}</span>
+                </>
+              }
+            />
             {/* 远程入口展示策略统一走 useRemoteConnectionEntryVisibility，避免与其他入口出现分叉。*/}
             {/* {showRemoteConnectionEntry ? (
               <SSHDialog

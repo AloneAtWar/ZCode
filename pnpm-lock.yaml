@@ -669,6 +669,9 @@ importers:
       '@zcode/provider-node':
         specifier: workspace:*
         version: link:../provider-node
+      '@zcode/relay-client':
+        specifier: workspace:*
+        version: link:../relay-client
       '@zcode/rpc':
         specifier: workspace:*
         version: link:../rpc
@@ -841,6 +844,47 @@ importers:
       '@zcode/model-option-map':
         specifier: workspace:*
         version: link:../model-option-map
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/relay-client:
+    dependencies:
+      '@zcode/rpc':
+        specifier: workspace:*
+        version: link:../rpc
+    devDependencies:
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.2
+
+  packages/remote-console-ui:
+    dependencies:
+      '@zcode/client':
+        specifier: workspace:*
+        version: link:../client
+      '@zcode/relay-client':
+        specifier: workspace:*
+        version: link:../relay-client
+      '@zcode/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@zcode/ui':
+        specifier: workspace:*
+        version: link:../ui
+      react:
+        specifier: 19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: 19.2.7
+        version: 19.2.7(react@19.2.7)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -16172,11 +16216,11 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
+  lodash.pickby@4.6.0: {}
+
   lodash.uniqby@4.7.0: {}
 
   lodash@4.18.1: {}
-
-  lodash.pickby@4.6.0: {}
 
   log-symbols@4.1.0:
     dependencies:

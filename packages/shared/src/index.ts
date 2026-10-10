@@ -212,6 +212,8 @@ export type {
   OpenInEditorRemoteTarget,
   OpenInEditorOptions,
   PostUpdateReleaseNotesPayload,
+  RelayRemoteDeviceSummary,
+  RelayRemoteWorkspaceSummary,
   RemoteConnectionRuntimeLog,
   RemoteSessionClosedEvent,
   RemoteServiceSession,

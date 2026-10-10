@@ -470,6 +470,24 @@ export interface BindRemoteWorkspaceSessionContextRequest {
   workspaceIdentity?: string;
 }
 
+/** relay 远程控制的被控设备摘要（设备 sid 天然稳定唯一，作为 id）。 */
+export interface RelayRemoteDeviceSummary {
+  id: string;
+  name: string;
+  /** 远程链接原文，即设备凭据：仅存本机，不写日志。 */
+  url: string;
+  addedAt: number;
+}
+
+/** relay 远程控制的被控工作区摘要。 */
+export interface RelayRemoteWorkspaceSummary {
+  /** 桥接定位键（workspaceIdentity?.trim() || workspacePath，与仓库身份 key 规则一致）。 */
+  workspaceKey: string;
+  /** 被控端机器上的工作区绝对路径，用于展示与 addTab。 */
+  workspacePath: string;
+  workspaceLabel?: string;
+}
+
 export const DesktopCommandIds = {
   NewTask: "newTask",
   OpenWorkspace: "openWorkspace",
@@ -600,6 +618,52 @@ export interface IPlatformService {
 
   /** 释放当前窗口里已创建的远程 session */
   disposeRemoteSession(sessionId: string): Promise<void>;
+
+  /** relay 远程控制：列出本机已保存的被控设备（桌面 renderer 直连 relay 实现；Web 不支持时不提供该方法）。 */
+  listRelayRemoteDevices?(): Promise<RelayRemoteDeviceSummary[]>;
+
+  /** relay 远程控制：校验并保存一个被控设备（远程链接即凭据，仅存本机）；链接非法或重复时返回 error。 */
+  addRelayRemoteDevice?(
+    rawUrl: string,
+  ): Promise<{ device?: RelayRemoteDeviceSummary; error?: string }>;
+
+  /** relay 远程控制：移除设备并断开其全部工作区桥接。 */
+  removeRelayRemoteDevice?(deviceId: string): Promise<void>;
+
+  /** relay 远程控制：连接设备并列出被控端当前打开的工作区。 */
+  listRelayRemoteWorkspaces?(deviceId: string): Promise<{
+    workspaces?: RelayRemoteWorkspaceSummary[];
+    error?: string;
+  }>;
+
+  /**
+   * relay 远程控制：打开（或复用）到被控工作区的桥接，把服务注册进窗口内
+   * remoteWorkspaceSessionStore，返回可交给 addTab 的 remoteSessionId 与被控端工作区路径。
+   */
+  openRelayRemoteWorkspace?(options: { deviceId: string; workspaceKey: string }): Promise<{
+    sessionId?: string;
+    workspacePath?: string;
+    error?: string;
+  }>;
+
+  /**
+   * relay 远程控制：读取被控端桌面设置里的最近项目路径（候选目录）。
+   * 官方被控端拒绝为未打开的工作区开桥，这些候选仅用于「打开其他目录」流程的路径补全。
+   */
+  listRelayRemoteRecentProjects?(deviceId: string): Promise<{
+    projects?: string[];
+    error?: string;
+  }>;
+
+  /**
+   * relay 远程控制：让被控端桌面自己打开一个当前未打开的目录（借任一已打开工作区的
+   * 桥接走 terminal channel 执行 `ZCode.exe --open-workspace <path>`，无确认弹窗），
+   * 等工作区出现在列表后完成开桥注册；语义同 openRelayRemoteWorkspace。
+   */
+  openRelayRemoteWorkspaceByPath?(options: {
+    deviceId: string;
+    workspacePath: string;
+  }): Promise<{ sessionId?: string; workspacePath?: string; error?: string }>;
 
   /** 检查本机 Docker daemon 是否可用 */
   isDockerAvailable(): Promise<boolean>;

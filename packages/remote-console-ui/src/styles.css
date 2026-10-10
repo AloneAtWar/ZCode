@@ -1,0 +1,10 @@
+/* 注意：唯一起作用的 Tailwind 扫描源是 @zcode/ui/styles.css（source(".") 只扫 packages/ui/src），
+   本包的 utility class 必须同样出现在 packages/ui/src 源码中，否则会静默失效。 */
+
+/* 应用外壳底色：与 theme-zai-dark 的 --color-background 对齐，避免露出宿主默认白底。 */
+html,
+body {
+  margin: 0;
+  background: #161616;
+  color-scheme: dark;
+}

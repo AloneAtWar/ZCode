@@ -34,6 +34,7 @@ import { createDesktopPlatform } from "./desktopPlatform.js";
 import { startPerformanceTimelineCleanup } from "./performanceTimelineCleanup.js";
 import { initializeDesktopUserActionTrace } from "./userActionTraceBootstrap.js";
 import { buildRemoteWorkspaceSessionServices } from "./remoteWorkspaceSessionServices.js";
+import { initializeRelayRemoteController } from "./relayRemote/relayRemoteController.js";
 import {
   notifyRemoteWorkspaceServicePortReady,
   parseRemoteWorkspaceServicePortMessage,
@@ -305,6 +306,7 @@ function initializeBusinessRoot(port: MessagePort): void {
   const services = connectViaMessagePort(port);
   baseServicesForRemoteSessions = services;
   registerBaseWorkspaceServices(services);
+  initializeRelayRemoteController(services);
   flushPendingRemoteWorkspaceServicePorts();
   const settingService = supportsSettings ? services.settingService : undefined;
 

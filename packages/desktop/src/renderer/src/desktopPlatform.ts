@@ -2,6 +2,15 @@ import { recordArmsCustomEventForE2E } from "@zcode/ui";
 import { DesktopCommandIds, buildLocalMediaPreviewUrl, type IPlatformService } from "@zcode/shared";
 
 import { desktopBrowserPlatformBridge } from "./desktopBrowserPlatformBridge.js";
+import {
+  addRelayRemoteDevice,
+  listRelayRemoteDevices,
+  listRelayRemoteRecentProjects,
+  listRelayRemoteWorkspaces,
+  openRelayRemoteWorkspace,
+  openRelayRemoteWorkspaceByPath,
+  removeRelayRemoteDevice,
+} from "./relayRemote/relayRemoteController.js";
 
 export function createDesktopPlatform(options: {
   isLocalDevelopmentRuntime: boolean;
@@ -162,5 +171,13 @@ export function createDesktopPlatform(options: {
     setTitleBarTheme: (theme) => window.zcode.setTitleBarTheme(theme),
     getDeviceId: () =>
       (window as Window & { __ZCODE_DEVICE_ID__?: string }).__ZCODE_DEVICE_ID__ ?? "",
+    // relay 远程控制走 renderer 直连（不经 main/preload），这里只做委托。
+    listRelayRemoteDevices: () => Promise.resolve(listRelayRemoteDevices()),
+    addRelayRemoteDevice: (rawUrl) => Promise.resolve(addRelayRemoteDevice(rawUrl)),
+    removeRelayRemoteDevice: (deviceId) => removeRelayRemoteDevice(deviceId),
+    listRelayRemoteWorkspaces: (deviceId) => listRelayRemoteWorkspaces(deviceId),
+    openRelayRemoteWorkspace: (options) => openRelayRemoteWorkspace(options),
+    listRelayRemoteRecentProjects: (deviceId) => listRelayRemoteRecentProjects(deviceId),
+    openRelayRemoteWorkspaceByPath: (options) => openRelayRemoteWorkspaceByPath(options),
   };
 }

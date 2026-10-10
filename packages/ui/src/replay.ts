@@ -17,6 +17,8 @@ export {
 } from "./v4/V4ConversationContext.js";
 export { SessionDataLayer, type SessionLease } from "./v4/sessionDataLayer.js";
 export type { ConversationTransport, ConversationAttachmentReadParams } from "./v4/transport.js";
+// 远程控制端等"自带传输"的宿主用：以 IZCodeAgentService 形状的代理装配会话 transport。
+export { createAgentConversationTransport } from "./v4/agentConversationTransport.js";
 export { WorkflowRunPhaseList } from "./app-shell/WorkflowRunPhaseList.js";
 export { WorkflowRunSectionToggle } from "./app-shell/WorkflowRunSectionToggle.js";
 export {
@@ -36,6 +38,10 @@ export { PlatformProvider } from "./hooks/usePlatform.js";
 export { StoreProvider, useZCodeStore } from "./store/StoreProvider.js";
 export { TabStoreProvider } from "./store/TabStoreProvider.js";
 export { DiffsWorkerPoolProvider } from "./root/DiffsWorkerPoolProvider.js";
+export { CodingPlanUpgradeDialogProvider } from "./settings/CodingPlanUpgradeDialogProvider.js";
+export { AssistantCodeCommentFeatureProvider } from "./AssistantCodeCommentFeatureProvider.js";
+// LucideProvider 是 lucide-react 的；远程控制端不直接依赖 lucide-react，从这里中转。
+export { LucideProvider } from "lucide-react";
 export { ZCodeIntlProvider, useZCodeIntl } from "./i18n/IntlProvider.js";
 export { Button } from "./components/ui/button.js";
 export { cn } from "./components/lib/utils.js";
